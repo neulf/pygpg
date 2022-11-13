@@ -11,3 +11,5 @@ python pygpg <path>
 ```
 
 
+
+Only test in linux with a non-root user.
