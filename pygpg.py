@@ -1,30 +1,46 @@
 ﻿import os
 
 def check_file(file_path, reverse=False):
-    if(file_path.find(".") == 0 and reverse == True):
+    if(file_path.startswith(".") and reverse == True):
         return
         
-    #print("->"+file_path)
+    if(reverse==False):
+        file_path = os.path.abspath(file_path)
+        
+    #print("chdir："+os.path.abspath(file_path))
     os.chdir(file_path)
-    #print(os.path.abspath(os.curdir))
+    
+    #print(file_path)
+    #print("当前目录："+os.path.abspath(file_path))
     all_file = os.listdir()
     files = []
     
     if all_file:
         for f in all_file:
+            if not os.path.isdir(f):
+                if(f.find(".") != 0 and f.endswith(".gpg")):
+                    files.append(f)
+    
+        for f in all_file:
             if os.path.isdir(f):
                 
-                if(f.find(".") == 0):
+                if(f.startswith(".")):
                     continue
                                                  
                 #print(type(f))
                 check_file(file_path+'/'+f,True)
+                
+                #os.chdir(os.path.abspath(file_path))
                 os.chdir(file_path)
             else:
-                if(f.find(".") == 0):
+                if(f.startswith(".") or f.endswith(".gpg")):
                     continue
-                #files.append(f)
-                print("--->"+f)
+                
+                if(f+".gpg" in files):
+                    continue
+                
+                #print(files)
+                print("--->开始加密："+f)
     #return files
 
-file_list = check_file(".")
+file_list = check_file(r"./testgpg")
