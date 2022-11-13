@@ -47,7 +47,12 @@ def check_file(file_path, reverse=False):
                     continue
                 
                 #print(files)
-                cmd = 'sudo gpg --batch --yes -r ' + USER_ID + ' -e "' + f + '"'
+                if f.startswith("-"):
+                    fname = "./" + f
+                else:
+                    fname = f
+                
+                cmd = 'sudo gpg --batch --yes -r ' + USER_ID + ' -e "' + fname + '"'
                 print("-->开始加密：" + cmd)
                 #r = subprocess.call(cmd,shell=True)
                 
