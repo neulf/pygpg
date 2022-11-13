@@ -1,6 +1,9 @@
 ﻿import os
+import sys
+import subprocess
 
 USER_ID = ""
+ROOT_PASS = ""
 
 def check_file(file_path, reverse=False):
     if(file_path.startswith(".") and reverse == True):
@@ -8,6 +11,8 @@ def check_file(file_path, reverse=False):
         
     if(reverse==False):
         file_path = os.path.abspath(file_path)
+        if file_path.endswith("/"):
+            file_path = file_path[:-1]
         
     #print("chdir："+os.path.abspath(file_path))
     os.chdir(file_path)
@@ -42,10 +47,17 @@ def check_file(file_path, reverse=False):
                     continue
                 
                 #print(files)
-                print("-->开始加密："+f)
-                print("gpg --batch --yes -r " + USER_ID + " -e " + f)
+                cmd = 'sudo gpg --batch --yes -r ' + USER_ID + ' -e "' + f + '"'
+                print("-->开始加密：" + cmd)
+                #r = subprocess.call(cmd,shell=True)
+                
+                (status, result)=subprocess.getstatusoutput('echo %s| sudo -S %s' %(ROOT_PASS,cmd))
+                print("-->执行结果：" + str(result))
                 
                 
     #return files
 
-file_list = check_file(r"./testgpg")
+if len(sys.argv) <= 1:
+    print("Please input filepath.")
+else:
+    file_list = check_file(sys.argv[1])
