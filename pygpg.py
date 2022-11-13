@@ -1,5 +1,7 @@
 ﻿import os
 
+USER_ID = ""
+
 def check_file(file_path, reverse=False):
     if(file_path.startswith(".") and reverse == True):
         return
@@ -40,7 +42,10 @@ def check_file(file_path, reverse=False):
                     continue
                 
                 #print(files)
-                print("--->开始加密："+f)
+                print("-->开始加密："+f)
+                print("gpg --batch --yes -r " + USER_ID + " -e " + f)
+                
+                
     #return files
 
 file_list = check_file(r"./testgpg")
