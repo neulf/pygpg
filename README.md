@@ -20,7 +20,7 @@ http://<ip or domain>:<port>/<path>        <username>   <password>
 ```
 
 
-mount netdisk via dav(alist service:
+mount netdisk via webdav(alist service:
 ```
 sudo mount.davfs "http://alist.lifang.fun:5244/dav" /mnt/aliyunpan -o uid=1000,gid=1000 
 ```
